@@ -1,0 +1,23 @@
+main: com.ty.test.Main
+name: posi
+version: 0.1
+author: ty
+api-version: 1.17
+
+commands:
+  setPosi:
+    description: save new posi
+    usage: /setPosi <posiName>
+    aliases: sp
+  posi:
+    description: teleport to posi
+    usage: /posi <posiName>
+    aliases: p
+  delPosi:
+    description: delete posi
+    usage: /delPosi <posiName>
+    aliases: dp
+  posiList:
+    description: show posi list
+    usage: /posiList
+    aliases: plist
