@@ -1,4 +1,4 @@
-package com.ty.test.util;
+package com.ty.mctool.util;
 
 import org.bukkit.World;
 

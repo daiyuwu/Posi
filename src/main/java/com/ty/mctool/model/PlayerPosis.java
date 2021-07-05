@@ -1,6 +1,5 @@
-package com.ty.test.model;
+package com.ty.mctool.model;
 
-import org.bukkit.Location;
 import org.bukkit.World;
 
 import java.util.*;

@@ -1,8 +1,8 @@
-package com.ty.test.command;
+package com.ty.mctool.command;
 
-import com.ty.test.Main;
-import com.ty.test.model.PosiProcesser;
-import com.ty.test.model.PlayerPosis;
+import com.ty.mctool.Main;
+import com.ty.mctool.model.PosiProcesser;
+import com.ty.mctool.model.PlayerPosis;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -14,7 +14,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class PosiCmd implements CommandExecutor {
@@ -50,7 +49,6 @@ public class PosiCmd implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
         if (sender instanceof Player) {
-            this.main.getLogger().info("is player");
             Player player = (Player) sender;
 
             switch (command.getName()) {
@@ -75,9 +73,6 @@ public class PosiCmd implements CommandExecutor {
                     posiList(player);
                     break;
             }
-//            if (command.getName().equals("test1")) {
-//                player.sendMessage("yoyo test success !");
-//            }
         } else {
             this.main.getLogger().info("test fail !");
         }
