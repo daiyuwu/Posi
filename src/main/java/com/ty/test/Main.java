@@ -11,11 +11,6 @@ public class Main extends JavaPlugin {
         reloadConfig();
         saveDefaultConfig();
 
-//        if (!this.getDataFolder().exists()) {
-//            this.getDataFolder().mkdir();
-//        }
-//        this.getLogger().info("folder: " + this.getDataFolder());
-
         new PosiCmd(this);
     }
 }
