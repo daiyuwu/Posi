@@ -52,7 +52,7 @@ public class PlayerPosis {
 
         Player.World.Posi posi = world.getPosis().stream().filter(p -> {
             return p.getName().equals(posiName);
-        }).collect(onlyElement());
+        }).findFirst().orElse(null);
 
         return posi;
     }
