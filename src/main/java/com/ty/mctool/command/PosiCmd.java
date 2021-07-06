@@ -1,7 +1,8 @@
-package com.ty.test.command;
+package com.ty.mctool.command;
 
-import com.ty.test.Main;
-import com.ty.test.model.PlayerPosis;
+import com.ty.mctool.Main;
+import com.ty.mctool.model.PosiProcesser;
+import com.ty.mctool.model.PlayerPosis;
 import com.ty.test.model.PosiProcesser;
 import com.ty.test.util.Message;
 import com.ty.test.util.Transition;
@@ -24,7 +25,6 @@ import org.jetbrains.annotations.Unmodifiable;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class PosiCmd implements CommandExecutor {

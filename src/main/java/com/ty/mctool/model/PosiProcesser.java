@@ -1,7 +1,7 @@
-package com.ty.test.model;
+package com.ty.mctool.model;
 
 import com.google.gson.Gson;
-import com.ty.test.Main;
+import com.ty.mctool.Main;
 
 import java.io.*;
 

@@ -1,4 +1,4 @@
-package com.ty.test.model;
+package com.ty.mctool.model;
 
 public class Customer {
     private String firstName;
