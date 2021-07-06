@@ -1,5 +1,6 @@
 package com.ty.test.util;
 
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.World;
 
 public class Transition {
@@ -18,5 +19,9 @@ public class Transition {
                 break;
         }
         return id;
+    }
+
+    public static String toColorMessage(String message, ChatColor chatColor) {
+        return chatColor.toString() + message;
     }
 }

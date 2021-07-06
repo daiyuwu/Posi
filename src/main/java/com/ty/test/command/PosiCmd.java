@@ -3,6 +3,15 @@ package com.ty.test.command;
 import com.ty.test.Main;
 import com.ty.test.model.PlayerPosis;
 import com.ty.test.model.PosiProcesser;
+import com.ty.test.util.Message;
+import com.ty.test.util.Transition;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentLike;
+import net.kyori.adventure.text.TextReplacementConfig;
+import net.kyori.adventure.text.format.Style;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -11,9 +20,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Unmodifiable;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class PosiCmd implements CommandExecutor {
@@ -38,7 +49,7 @@ public class PosiCmd implements CommandExecutor {
 
     public boolean isLength(String[] args, int length, Player player) {
         if (args.length != length) {
-            player.sendMessage("command format error.");
+            Message.sendErrorMessage(player, "command format error.");
             return false;
         }
 
@@ -85,7 +96,6 @@ public class PosiCmd implements CommandExecutor {
             playerPosis = posiProcesser.load();
             PlayerPosis.Player posisPlayer = playerPosis.getPlayer(player.getUniqueId());
 
-            logging("posisPlayer: " + posisPlayer);
             if (posisPlayer == null) {
                 PlayerPosis.Player newPlayer = new PlayerPosis.Player(player.getUniqueId().toString());
                 playerPosis.getPlayers().add(newPlayer);
@@ -96,13 +106,15 @@ public class PosiCmd implements CommandExecutor {
 
 
             List<PlayerPosis.Player.World.Posi> posis = world.getPosis();
-            String posisStr = posis.stream().map(PlayerPosis.Player.World.Posi::getName).reduce((acc, name) -> {
+            String posisStr = Transition.toColorMessage("-- posi LIST --\n", ChatColor.BLUE);
+            posisStr += Transition.toColorMessage(posis.stream().map(PlayerPosis.Player.World.Posi::getName).reduce("", (acc, name) -> {
                 return acc + name + "\n";
-            }).get();
+            }), ChatColor.GOLD);
 
             player.sendMessage(posisStr);
+
         } catch (IOException e) {
-            player.sendMessage("load record error !");
+            Message.sendErrorMessage(player, "load record error !");
             this.main.getLogger().warning("player load record error !");
 //            e.printStackTrace();
         }
@@ -114,7 +126,6 @@ public class PosiCmd implements CommandExecutor {
             playerPosis = posiProcesser.load();
             PlayerPosis.Player posisPlayer = playerPosis.getPlayer(player.getUniqueId());
 
-            logging("posisPlayer: " + posisPlayer);
             if (posisPlayer == null) {
                 PlayerPosis.Player newPlayer = new PlayerPosis.Player(player.getUniqueId().toString());
                 playerPosis.getPlayers().add(newPlayer);
@@ -126,7 +137,7 @@ public class PosiCmd implements CommandExecutor {
             if ("9d374ed1-5a3e-464a-8fe8-a78ebb0cbb93".equals(player.getUniqueId().toString())) {
                 int limit = 5;
                 if (world.getPosis().size() >= limit) {
-                    player.sendMessage(String.format("posi record reached the upper limit(%d)", limit));
+                    Message.sendErrorMessage(player, String.format("posi record reached the upper limit(%d)", limit));
                     return;
                 }
             }
@@ -136,7 +147,7 @@ public class PosiCmd implements CommandExecutor {
             });
 
             if (nameExists) {
-                player.sendMessage(posiName + " has existed.");
+                Message.sendErrorMessage(player, posiName + " has existed.");
                 return;
             }
 
@@ -147,9 +158,9 @@ public class PosiCmd implements CommandExecutor {
 
             world.getPosis().add(posi);
             posiProcesser.save(playerPosis);
-            player.sendMessage(posiName + " save done."); // 9d374ed1-5a3e-464a-8fe8-a78ebb0cbb93
+            Message.sendProcessMessage(player, posiName + " save done.");
         } catch (IOException e) {
-            player.sendMessage("load record error !");
+            Message.sendErrorMessage(player, "load record error !");
             this.main.getLogger().warning("player load record error !");
 //            e.printStackTrace();
         }
@@ -165,7 +176,7 @@ public class PosiCmd implements CommandExecutor {
                     , posiName);
 
             if (posi == null) {
-                player.sendMessage("posi name not in this world !");
+                Message.sendErrorMessage(player, "posi name not in this world !");
                 return;
             }
 
@@ -174,18 +185,18 @@ public class PosiCmd implements CommandExecutor {
                     , posi.getPosiY()
                     , posi.getPosiZ());
 
-            player.sendMessage("don't move, ready posi to " + posiName + "...");
+            Message.sendProcessMessage(player, "don't move, ready posi to " + posiName + "...");
 
             BukkitScheduler bs = Bukkit.getScheduler();
             bs.runTaskLater(main, new Runnable() {
                 @Override
                 public void run() {
-                    player.sendMessage("is posi to" + posiName + " !");
+                    Message.sendProcessMessage(player, "is posi to" + posiName + " !");
                     player.teleport(location);
                 }
             }, (long) (3 * 20));
         } catch (IOException e) {
-            player.sendMessage("load record error !");
+            Message.sendErrorMessage(player, "load record error !");
             this.main.getLogger().warning("player load record error !");
 //            e.printStackTrace();
         }
@@ -204,7 +215,7 @@ public class PosiCmd implements CommandExecutor {
             });
 
             if (!nameExists) {
-                player.sendMessage(posiName + " has not existed.");
+                Message.sendErrorMessage(player, posiName + " has not existed.");
                 return;
             }
 
@@ -213,10 +224,10 @@ public class PosiCmd implements CommandExecutor {
             }).collect(Collectors.toList());
             world.setPosis(newPosis);
             posiProcesser.save(playerPosis);
-            player.sendMessage(posiName + " delete done.");
+            Message.sendProcessMessage(player, posiName + " delete done.");
 
         } catch (IOException e) {
-            player.sendMessage("load record error !");
+            Message.sendErrorMessage(player, "load record error !");
             this.main.getLogger().warning("player load record error !");
 //            e.printStackTrace();
         }
