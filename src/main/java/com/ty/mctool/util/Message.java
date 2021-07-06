@@ -1,4 +1,4 @@
-package com.ty.test.util;
+package com.ty.mctool.util;
 
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;

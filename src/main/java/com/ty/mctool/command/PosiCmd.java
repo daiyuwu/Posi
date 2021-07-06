@@ -1,18 +1,11 @@
 package com.ty.mctool.command;
 
 import com.ty.mctool.Main;
-import com.ty.mctool.model.PosiProcesser;
 import com.ty.mctool.model.PlayerPosis;
-import com.ty.test.model.PosiProcesser;
-import com.ty.test.util.Message;
-import com.ty.test.util.Transition;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentLike;
-import net.kyori.adventure.text.TextReplacementConfig;
-import net.kyori.adventure.text.format.Style;
+import com.ty.mctool.model.PosiProcesser;
+import com.ty.mctool.util.Message;
+import com.ty.mctool.util.Transition;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -21,7 +14,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Unmodifiable;
 
 import java.io.IOException;
 import java.util.List;
